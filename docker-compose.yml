@@ -41,16 +41,15 @@ services:
       dockerfile: ./docker/psql/Dockerfile
     container_name: accountant-psql
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:5432
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
     volumes:
       - ./docker/psql/data:/var/lib/postgresql/data
     networks:
       - accountant-network
-
 
 networks:
   accountant-network:
