@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: accountant-php
+    restart: unless-stopped
+    ports:
+      -   "9000:9000"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - accountant-network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    container_name: accountant-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - accountant-network
+    depends_on:
+      - php
+      - psql
+    links:
+      - psql
+
+
+  psql:
+    build:
+      context: .
+      dockerfile: ./docker/psql/Dockerfile
+    container_name: accountant-psql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_PASSWORD}
+    volumes:
+      - ./docker/psql/data:/var/lib/postgresql/data
+    networks:
+      - accountant-network
+
+
+networks:
+  accountant-network:
+    driver: bridge
