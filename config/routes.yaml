@@ -3,3 +3,9 @@ controllers:
         path: ../src/Shared/Infrastructure/Controller/
         namespace: App\Shared\Infrastructure\Controller
     type: attribute
+
+gesdinet_jwt_refresh_token:
+    path: /api/auth/token/refresh
+
+api_login_check:
+    path: /api/auth/token/login

@@ -47,4 +47,6 @@ class UserRepositoryTest extends WebTestCase
 
 		$this->assertEquals($user->getUuid(), $existingUser->getUuid());
 	}
+
+	// TODO: Implemented test for find by email
 }
