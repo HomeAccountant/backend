@@ -2,26 +2,26 @@
 
 namespace App\Users\Domain\Entity;
 
+use App\Shared\Domain\Security\AuthUserInterface;
 use App\Shared\Domain\Service\UuidService;
+use App\Users\Domain\Service\UserPasswordHasherInterface;
 
-class User
+class User implements AuthUserInterface
 {
 	private string $uuid;
 	private string $name;
 	private string $email;
-	private string $password;
+	private ?string $password = null;
 
 	/**
 	 * @param string $name
 	 * @param string $email
-	 * @param string $password
 	 */
-	public function __construct(string $name, string $email, string $password)
+	public function __construct(string $name, string $email)
 	{
 		$this->uuid = UuidService::generate();
 		$this->name = $name;
 		$this->email = $email;
-		$this->password = $password;
 	}
 
 	/**
@@ -51,8 +51,35 @@ class User
 	/**
 	 * @return string
 	 */
-	public function getPassword(): string
+	public function getPassword(): ?string
 	{
 		return $this->password;
+	}
+
+	public function getRoles(): array
+	{
+		return [
+			'ROLE_USER',
+		];
+	}
+
+	public function eraseCredentials()
+	{
+
+	}
+
+	public function getUserIdentifier(): string
+	{
+		return $this->email;
+	}
+
+	public function setPassword(?string $password, UserPasswordHasherInterface $passwordHasher): void
+	{
+		if (is_null($password)) {
+			$this->password = null;
+		} else {
+			$this->password = $passwordHasher->hash($this, $password);
+
+		}
 	}
 }
