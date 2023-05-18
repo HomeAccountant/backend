@@ -2,7 +2,7 @@
 
 namespace App\Tests\Functional\Users\Infrastructure\Repository;
 
-use App\Tests\Resource\Fixture\UserFixture;
+use App\Tests\Resource\Fixture\User\UserFixture;
 use App\Users\Domain\Factory\UserFactory;
 use App\Users\Infrastructure\Repository\UserRepository;
 use Faker\Factory;
@@ -21,6 +21,7 @@ class UserRepositoryTest extends WebTestCase
 	{
 		parent::setUp();
 		$this->repository = static::getContainer()->get(UserRepository::class);
+		$this->userFactory = static::getContainer()->get(UserFactory::class);
 		$this->faker = Factory::create();
 		$this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
 	}
@@ -30,7 +31,7 @@ class UserRepositoryTest extends WebTestCase
 		$name = $this->faker->name();
 		$email = $this->faker->email();
 		$password = $this->faker->password();
-		$user = (new UserFactory())->create($name, $email, $password);
+		$user = $this->userFactory->create($name, $email, $password);
 
 		$this->repository->add($user);
 
@@ -47,4 +48,6 @@ class UserRepositoryTest extends WebTestCase
 
 		$this->assertEquals($user->getUuid(), $existingUser->getUuid());
 	}
+
+	// TODO: Implemented test for find by email
 }
