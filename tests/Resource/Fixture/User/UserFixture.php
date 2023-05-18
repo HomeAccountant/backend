@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Resource\Fixture;
+namespace App\Tests\Resource\Fixture\User;
 
 use App\Tests\Tools\FakerTools;
 use App\Users\Domain\Factory\UserFactory;

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Functional\Users\Infrastructure\Repository;
 
-use App\Tests\Resource\Fixture\UserFixture;
+use App\Tests\Resource\Fixture\User\UserFixture;
 use App\Users\Domain\Factory\UserFactory;
 use App\Users\Infrastructure\Repository\UserRepository;
 use Faker\Factory;
