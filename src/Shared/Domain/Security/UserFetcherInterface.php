@@ -4,5 +4,5 @@ namespace App\Shared\Domain\Security;
 
 interface UserFetcherInterface
 {
-	public function getAuthUser(): AuthUserInterface;
+    public function getAuthUser(): AuthUserInterface;
 }

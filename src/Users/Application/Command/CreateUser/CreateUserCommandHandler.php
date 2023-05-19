@@ -8,22 +8,21 @@ use App\Users\Domain\Repository\UserRepositoryInterface;
 
 class CreateUserCommandHandler implements CommandHandlerInterface
 {
-	public function __construct(
-		private readonly UserRepositoryInterface $userRepository,
-		private readonly UserFactory $userFactory
-	)
-	{
-	}
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly UserFactory $userFactory
+    ) {
+    }
 
-	public function __invoke(CreateUserCommand $createUserCommand): string
-	{
-		$user = $this->userFactory->create(
-			$createUserCommand->name,
-			$createUserCommand->email,
-			$createUserCommand->password
-		);
-		$this->userRepository->add($user);
+    public function __invoke(CreateUserCommand $createUserCommand): string
+    {
+        $user = $this->userFactory->create(
+            $createUserCommand->name,
+            $createUserCommand->email,
+            $createUserCommand->password
+        );
+        $this->userRepository->add($user);
 
-		return $user->getUuid();
-	}
+        return $user->getUuid();
+    }
 }

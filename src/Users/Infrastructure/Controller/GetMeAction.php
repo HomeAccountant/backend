@@ -9,18 +9,18 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/users/me', methods: ['GET'])]
 class GetMeAction
 {
-	public function __construct(private readonly UserFetcherInterface $userFetcher)
-	{
-	}
+    public function __construct(private readonly UserFetcherInterface $userFetcher)
+    {
+    }
 
-	public function __invoke()
-	{
-		$user = $this->userFetcher->getAuthUser();
+    public function __invoke()
+    {
+        $user = $this->userFetcher->getAuthUser();
 
-		return new JsonResponse([
-			'uuid' => $user->getUuid(),
-			'name' => $user->getName(),
-			'email' => $user->getEmail()
-		]);
-	}
+        return new JsonResponse([
+            'uuid' => $user->getUuid(),
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+        ]);
+    }
 }

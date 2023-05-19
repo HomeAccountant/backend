@@ -7,8 +7,8 @@ use Faker\Generator;
 
 trait FakerTools
 {
-	public function getFaker(): Generator
-	{
-		return Factory::create();
-	}
+    public function getFaker(): Generator
+    {
+        return Factory::create();
+    }
 }
