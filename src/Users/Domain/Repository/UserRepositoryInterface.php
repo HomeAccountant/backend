@@ -6,9 +6,9 @@ use App\Users\Domain\Entity\User;
 
 interface UserRepositoryInterface
 {
-	public function add(User $user): void;
+    public function add(User $user): void;
 
-	public function findByUuid(string $uuid): User;
+    public function findByUuid(string $uuid): User;
 
-	public function findByEmail(string $email): ?User;
+    public function findByEmail(string $email): ?User;
 }

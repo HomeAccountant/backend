@@ -8,18 +8,18 @@ use App\Users\Domain\Repository\UserRepositoryInterface;
 
 class FindUserBuEmailQueryHandler implements QueryHandlerInterface
 {
-	public function __construct(private readonly UserRepositoryInterface $userRepository)
-	{
-	}
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
+    {
+    }
 
-	public function __invoke(FindUserByEmailQuery $query): ?UserDTO
-	{
-		$user = $this->userRepository->findByEmail($query->email);
+    public function __invoke(FindUserByEmailQuery $query): ?UserDTO
+    {
+        $user = $this->userRepository->findByEmail($query->email);
 
-		if (!$user) {
-			return null;
-		}
+        if (!$user) {
+            return null;
+        }
 
-		return UserDTO::fromEntity($user);
-	}
+        return UserDTO::fromEntity($user);
+    }
 }

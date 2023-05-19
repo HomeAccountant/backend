@@ -12,55 +12,54 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Webmozart\Assert\Assert;
 
 #[AsCommand(
-	name: 'app:users:create-user',
-	description: 'create user',
+    name: 'app:users:create-user',
+    description: 'create user',
 )]
 final class CreateUser extends Command
 {
-	public function __construct(
-		private readonly UserRepository $userRepository,
-		private readonly UserFactory $userFactory,
-	) {
-		parent::__construct();
-	}
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly UserFactory $userFactory,
+    ) {
+        parent::__construct();
+    }
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
-	{
-		$io = new SymfonyStyle($input, $output);
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
 
+        $name = $io->ask(
+            'name',
+            null,
+            function (?string $input) {
+                Assert::string($input, 'Name is invalid');
 
-		$name = $io->ask(
-			'name',
-			null,
-			function (?string $input) {
-				Assert::string($input, 'Name is invalid');
+                return $input;
+            }
+        );
 
-				return $input;
-			}
-		);
+        $email = $io->ask(
+            'email',
+            null,
+            function (?string $input) {
+                Assert::email($input, 'Email is invalid');
 
-		$email = $io->ask(
-			'email',
-			null,
-			function (?string $input) {
-				Assert::email($input, 'Email is invalid');
+                return $input;
+            }
+        );
 
-				return $input;
-			}
-		);
+        $password = $io->askHidden(
+            'password',
+            function (?string $input) {
+                Assert::notEmpty($input, 'Password cannot be empty');
 
-		$password = $io->askHidden(
-			'password',
-			function (?string $input) {
-				Assert::notEmpty($input, 'Password cannot be empty');
+                return $input;
+            }
+        );
 
-				return $input;
-			}
-		);
+        $user = $this->userFactory->create($name, $email, $password);
+        $this->userRepository->add($user);
 
-		$user = $this->userFactory->create($name, $email, $password);
-		$this->userRepository->add($user);
-
-		return Command::SUCCESS;
-	}
+        return Command::SUCCESS;
+    }
 }

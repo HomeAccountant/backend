@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HealthCheckActionTest extends WebTestCase
 {
-	public function test_request_responsed_successful_result(): void
-	{
-		$client = static::createClient();
-		$client->request(Request::METHOD_GET, '/health-check');
+    public function test_request_responsed_successful_result(): void
+    {
+        $client = static::createClient();
+        $client->request(Request::METHOD_GET, '/health-check');
 
-		$this->assertResponseIsSuccessful();
-		$jsonResult = json_decode($client->getResponse()->getContent(), true);
-		$this->assertEquals($jsonResult['status'], 'ok');
-	}
+        $this->assertResponseIsSuccessful();
+        $jsonResult = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals($jsonResult['status'], 'ok');
+    }
 }

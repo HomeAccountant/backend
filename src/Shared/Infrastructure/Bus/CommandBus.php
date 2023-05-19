@@ -9,15 +9,15 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class CommandBus implements CommandBusInterface
 {
-	use HandleTrait;
+    use HandleTrait;
 
-	public function __construct(MessageBusInterface $commandBus)
-	{
-		$this->messageBus = $commandBus;
-	}
+    public function __construct(MessageBusInterface $commandBus)
+    {
+        $this->messageBus = $commandBus;
+    }
 
-	public function execute(CommandInterface $command): mixed
-	{
-		return $this->handle($command);
-	}
+    public function execute(CommandInterface $command): mixed
+    {
+        return $this->handle($command);
+    }
 }

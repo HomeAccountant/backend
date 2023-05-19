@@ -10,25 +10,25 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CreateUserCommandHandlerTest extends WebTestCase
 {
-	public function setUp(): void
-	{
-		parent::setUp();
-		$this->faker = Factory::create();
-		$this->commandBus = $this::getContainer()->get(CommandBusInterface::class);
-		$this->userRepository = $this::getContainer()->get(UserRepositoryInterface::class);
-	}
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->faker = Factory::create();
+        $this->commandBus = $this::getContainer()->get(CommandBusInterface::class);
+        $this->userRepository = $this::getContainer()->get(UserRepositoryInterface::class);
+    }
 
-	public function test_user_created_successfully(): void
-	{
-		$command = new CreateUserCommand(
-			$this->faker->name(),
-			$this->faker->email(),
-			$this->faker->password()
-		);
+    public function test_user_created_successfully(): void
+    {
+        $command = new CreateUserCommand(
+            $this->faker->name(),
+            $this->faker->email(),
+            $this->faker->password()
+        );
 
-		$userUuid = $this->commandBus->execute($command);
+        $userUuid = $this->commandBus->execute($command);
 
-		$user = $this->userRepository->findByUuid($userUuid);
-		$this->assertNotEmpty($user);
-	}
+        $user = $this->userRepository->findByUuid($userUuid);
+        $this->assertNotEmpty($user);
+    }
 }

@@ -13,26 +13,25 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FindUserByEmailQueryHandlerTest extends WebTestCase
 {
-	public function setUp(): void
-	{
-		parent::setUp();
-		$this->faker = Factory::create();
-		$this->queryBus = $this::getContainer()->get(QueryBusInterface::class);
-		$this->userRepository = $this::getContainer()->get(UserRepositoryInterface::class);
-		$this->databaseTool = $this::getContainer()->get(DatabaseToolCollection::class)->get();
-	}
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->faker = Factory::create();
+        $this->queryBus = $this::getContainer()->get(QueryBusInterface::class);
+        $this->userRepository = $this::getContainer()->get(UserRepositoryInterface::class);
+        $this->databaseTool = $this::getContainer()->get(DatabaseToolCollection::class)->get();
+    }
 
-	public function test_user_created_when_command_executed(): void
-	{
-		$referenceRepository = $this->databaseTool->loadFixtures([UserFixture::class])->getReferenceRepository();
+    public function test_user_created_when_command_executed(): void
+    {
+        $referenceRepository = $this->databaseTool->loadFixtures([UserFixture::class])->getReferenceRepository();
 
-		$user = $referenceRepository->getReference(UserFixture::REFERENCE);
+        $user = $referenceRepository->getReference(UserFixture::REFERENCE);
 
-		$query = new FindUserByEmailQuery($user->getEmail());
+        $query = new FindUserByEmailQuery($user->getEmail());
 
-		$userDTO = $this->queryBus->execute($query);
+        $userDTO = $this->queryBus->execute($query);
 
-		$this->assertInstanceOf(UserDTO::class, $userDTO);
-	}
+        $this->assertInstanceOf(UserDTO::class, $userDTO);
+    }
 }
-
